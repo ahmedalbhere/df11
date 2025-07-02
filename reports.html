@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سجل - التقارير</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- الشريط الجانبي -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1><i class="fas fa-book"></i> سجل</h1>
+        <p>إدارة المال والديون</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item">
+          <i class="fas fa-chart-pie"></i>
+          <span>لوحة التحكم</span>
+        </a>
+        <a href="transactions.html" class="nav-item">
+          <i class="fas fa-exchange-alt"></i>
+          <span>المعاملات</span>
+        </a>
+        <a href="debts.html" class="nav-item">
+          <i class="fas fa-hand-holding-usd"></i>
+          <span>الديون</span>
+        </a>
+        <a href="reports.html" class="nav-item active">
+          <i class="fas fa-file-alt"></i>
+          <span>التقارير</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="fas fa-cog"></i>
+          <span>الإعدادات</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">م</div>
+          <div class="user-info">
+            <span class="username">محمد أحمد</span>
+            <span class="user-email">mohamed@example.com</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+      <header class="content-header">
+        <h2>التقارير المالية</h2>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="export-report-btn">
+            <i class="fas fa-file-export"></i> تصدير تقرير
+          </button>
+          <div class="notifications">
+            <i class="fas fa-bell"></i>
+            <span class="badge">3</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- تحكم التقارير -->
+      <section class="report-controls">
+        <div class="control-group">
+          <label for="report-type">نوع التقرير</label>
+          <select id="report-type">
+            <option value="monthly">تقرير شهري</option>
+            <option value="category">تقرير حسب الفئة</option>
+            <option value="yearly">تقرير سنوي</option>
+            <option value="debts">تقرير الديون</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="report-period">الفترة الزمنية</label>
+          <select id="report-period">
+            <option value="current-month">هذا الشهر</option>
+            <option value="last-month">الشهر الماضي</option>
+            <option value="3-months">آخر 3 شهور</option>
+            <option value="6-months">آخر 6 شهور</option>
+            <option value="current-year">هذا العام</option>
+            <option value="custom">مخصص</option>
+          </select>
+        </div>
+        <div class="control-group custom-dates" id="custom-dates" style="display: none;">
+          <label for="start-date">من</label>
+          <input type="date" id="start-date">
+          <label for="end-date">إلى</label>
+          <input type="date" id="end-date">
+        </div>
+      </section>
+
+      <!-- ملخص التقرير -->
+      <section class="report-summary">
+        <div class="summary-card">
+          <div class="summary-icon">
+            <i class="fas fa-money-bill-wave"></i>
+          </div>
+          <div class="summary-info">
+            <h3>إجمالي المدخول</h3>
+            <div class="summary-amount" id="report-income">0 جنيه</div>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon">
+            <i class="fas fa-shopping-basket"></i>
+          </div>
+          <div class="summary-info">
+            <h3>إجمالي المصروف</h3>
+            <div class="summary-amount" id="report-expense">0 جنيه</div>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="summary-info">
+            <h3>صافي الرصيد</h3>
+            <div class="summary-amount" id="report-balance">0 جنيه</div>
+          </div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-icon">
+            <i class="fas fa-hand-holding-usd"></i>
+          </div>
+          <div class="summary-info">
+            <h3>إجمالي الديون</h3>
+            <div class="summary-amount" id="report-debts">0 جنيه</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- المخططات والجداول -->
+      <section class="report-results">
+        <div class="chart-container">
+          <div class="chart-wrapper">
+            <div id="main-chart"></div>
+          </div>
+        </div>
+        <div class="table-container">
+          <table id="report-table">
+            <thead>
+              <tr>
+                <th id="column-1">الفئة</th>
+                <th id="column-2">المبلغ</th>
+                <th id="column-3">النسبة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- سيتم ملؤها بواسطة JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/reports.js"></script>
+</body>
+</html>
