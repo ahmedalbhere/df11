@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سجل - الديون</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- الشريط الجانبي -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1><i class="fas fa-book"></i> سجل</h1>
+        <p>إدارة المال والديون</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item">
+          <i class="fas fa-chart-pie"></i>
+          <span>لوحة التحكم</span>
+        </a>
+        <a href="transactions.html" class="nav-item">
+          <i class="fas fa-exchange-alt"></i>
+          <span>المعاملات</span>
+        </a>
+        <a href="debts.html" class="nav-item active">
+          <i class="fas fa-hand-holding-usd"></i>
+          <span>الديون</span>
+        </a>
+        <a href="reports.html" class="nav-item">
+          <i class="fas fa-file-alt"></i>
+          <span>التقارير</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="fas fa-cog"></i>
+          <span>الإعدادات</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">م</div>
+          <div class="user-info">
+            <span class="username">محمد أحمد</span>
+            <span class="user-email">mohamed@example.com</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main-content">
+      <header class="content-header">
+        <h2>إدارة الديون</h2>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="add-debt-btn">
+            <i class="fas fa-plus"></i> دين جديد
+          </button>
+          <div class="notifications">
+            <i class="fas fa-bell"></i>
+            <span class="badge">3</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- ملخص الديون -->
+      <section class="debts-summary">
+        <div class="summary-card owed">
+          <div class="summary-icon">
+            <i class="fas fa-hand-holding-usd"></i>
+          </div>
+          <div class="summary-info">
+            <h3>ديون عليك</h3>
+            <div class="summary-amount" id="owed-amount">0 جنيه</div>
+            <div class="summary-count" id="owed-count">0 ديون</div>
+          </div>
+        </div>
+
+        <div class="summary-card debt">
+          <div class="summary-icon">
+            <i class="fas fa-hand-holding-usd"></i>
+          </div>
+          <div class="summary-info">
+            <h3>ديون لك</h3>
+            <div class="summary-amount" id="debt-amount">0 جنيه</div>
+            <div class="summary-count" id="debt-count">0 ديون</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- فلترة الديون -->
+      <section class="filters-section">
+        <div class="filter-controls">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-input" placeholder="ابحث في الديون...">
+          </div>
+          <select id="status-filter">
+            <option value="">كل الحالات</option>
+            <option value="pending">قيد السداد</option>
+            <option value="paid">مسددة</option>
+          </select>
+          <select id="type-filter">
+            <option value="">كل الأنواع</option>
+            <option value="owed">ديون عليك</option>
+            <option value="debt">ديون لك</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- قائمة الديون -->
+      <section class="debts-section">
+        <div class="debts-list" id="debts-list">
+          <!-- سيتم ملؤها بواسطة JavaScript -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- نموذج إضافة دين -->
+  <div class="modal" id="debt-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="debt-modal-title">إضافة دين جديد</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="debt-form">
+          <div class="form-group">
+            <label for="debt-type">نوع الدين</label>
+            <select id="debt-type" required>
+              <option value="">اختر النوع</option>
+              <option value="owed">دين عليك</option>
+              <option value="debt">دين لك</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="debt-person">اسم الشخص</label>
+            <input type="text" id="debt-person" placeholder="أدخل اسم الشخص" required>
+          </div>
+          <div class="form-group">
+            <label for="debt-amount">المبلغ (جنيه)</label>
+            <input type="number" id="debt-amount" placeholder="أدخل المبلغ" required>
+          </div>
+          <div class="form-group">
+            <label for="debt-date">تاريخ الدين</label>
+            <input type="date" id="debt-date" required>
+          </div>
+          <div class="form-group">
+            <label for="debt-due-date">تاريخ الاستحقاق (اختياري)</label>
+            <input type="date" id="debt-due-date">
+          </div>
+          <div class="form-group">
+            <label for="debt-note">ملاحظات (اختياري)</label>
+            <textarea id="debt-note" placeholder="أدخل أي ملاحظات"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> حفظ
+            </button>
+            <button type="button" class="btn btn-outline" id="cancel-debt">
+              إلغاء
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/debts.js"></script>
+</body>
+</html>
